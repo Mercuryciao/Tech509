@@ -66,3 +66,4 @@ def other_player(player):
         return 'X'
     elif player == 'X':
         return 'O'
+
