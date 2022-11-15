@@ -83,9 +83,10 @@ class Board():
 
     def human_turn(self, board):
         """When play with bot, it's the logic in human turn."""
-        print("It's your turn!")
+        print("It's", self.player, "'s", "turn!")
         row, col = input("Enter row and col values: ").split()
         board[int(row)][int(col)] = self.player
+        print(board[0], '\n', board[1], '\n', board[2])
         self.board_index.remove((int(row), int(col)))
         self.player = self.other_player(self.player)
         return board

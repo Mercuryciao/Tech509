@@ -64,19 +64,14 @@ if __name__ == '__main__':
 
     # Choose to play with human
     elif mode == 'human':
-        game_board.player = input("Enter player(O or X): ")
-        if game_board.player == 'O' or game_board.player == 'X':
-            while winner == None:
-                print("It's your turn: ", game_board.player)
-                print(board[0], '\n', board[1], '\n', board[2])
-                row, col = input("Enter row and col values: ").split()
-                board[int(row)][int(col)] = game_board.player
-                game_board.board_index.remove((int(row), int(col)))
-                winner = game_board.get_winner(board)
-                if winner:
-                    break
-                if len(game_board.board_index) == 0:
-                    print('It\'s a tie')
-                    break
-                game_board.player = game_board.other_player(game_board.player)
-            print('Winner:', winner)
+        while winner == None:
+            board = game_board.human_turn(board)
+            winner = game_board.get_winner(board)
+
+            if winner:
+                print('Winner: ', winner)
+                break
+            if len(game_board.board_index) == 0:
+                print('It\'s a tie')
+                break
+            
