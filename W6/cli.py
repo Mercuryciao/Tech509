@@ -2,76 +2,44 @@
 # the Tic-Tac-Toe game. This is where input and output happens.
 # For core game logic, see logic.py.
 import random
+import board
 import logic
 
 if __name__ == '__main__':
-    """Create board and choose to play with bot or human."""
-    game_board = logic.Board()
-    board = game_board.make_empty_board()
     mode = input("Enter player(human or bot): ")
     winner = None
-    
-    # Choose to play with bot
+    # Choose to play with bot or human
+
     if mode == 'bot':
-        # Choose who to start first
         start_point = input("Who to start(bot or me): ")
+        # Choose who is the first
         if start_point == 'bot':
-            while winner == None:
-                
-                # bot turn
-                board = game_board.bot_turn(board)
-                winner = game_board.get_winner(board)
-                if winner:
-                    print('Winner: Bot!')
-                    break
-                if len(game_board.board_index) == 0:
-                    print('It\'s a tie')
-                    break
-
-                # human turn
-                board = game_board.human_turn(board)
-                winner = game_board.get_winner(board)
-                if winner:
-                    print('Winner: You!')
-                    break
-                if len(game_board.board_index) == 0:
-                    print('It\'s a tie')
-                    break
-
+            game = board.Game(board.Bot(), board.Human())
         elif start_point == 'me':
-            while winner == None:
-                # human turn
-                board = game_board.human_turn(board)
-                winner = game_board.get_winner(board)
-
-                if winner:
-                    print('Winner: You!')
-                    break
-                if len(game_board.board_index) == 0:
-                    print('It\'s a tie')
-                    break
-
-                # bot turn
-                board = game_board.bot_turn(board)
-                winner = game_board.get_winner(board)
-                if winner:
-                    print('Winner: Bot!')
-                    break
-                if len(game_board.board_index) == 0:
-                    print('It\'s a tie')
-                    break
-                
-
-    # Choose to play with human
+            game = board.Game(board.Human(), board.Bot())
     elif mode == 'human':
-        while winner == None:
-            board = game_board.human_turn(board)
-            winner = game_board.get_winner(board)
+        # Choose to play with human
+        game = board.Game(board.Human(), board.Human())
+    
+    while winner == None:
+        # playerX turn
+        game.board = game.playerX.move(game.board, game.board_index, 'X')
+        print(game.board[0], '\n', game.board[1], '\n', game.board[2])
+        winner = logic.get_winner(game.board)
+        if winner:
+            print('Winner: X!')
+            break
+        if len(game.board_index) == 0:
+            print('It\'s a tie')
+            break
 
-            if winner:
-                print('Winner: ', winner)
-                break
-            if len(game_board.board_index) == 0:
-                print('It\'s a tie')
-                break
-            
+        # playerO turn
+        game.board = game.playerO.move(game.board, game.board_index, 'O')
+        print(game.board[0], '\n', game.board[1], '\n', game.board[2])
+        winner = logic.get_winner(game.board)
+        if winner:
+            print('Winner: O!')
+            break
+        if len(game.board_index) == 0:
+            print('It\'s a tie')
+            break
