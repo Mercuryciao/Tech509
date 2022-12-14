@@ -61,3 +61,45 @@ def other_player(player):
         return 'X'
     elif player == 'X':
         return 'O'
+
+def record_result(result_data, player1name, player2name, winner):
+    max_game_id = result_data['Game'].max()
+    df_id = len(result_data)
+
+    if winner == 'O':
+        result_data.loc[df_id] = {
+            'Game': max_game_id+1, 
+            'Player': player2name, 
+            'Result': 'win'
+        }
+        result_data.loc[df_id+1] = {
+            'Game': max_game_id+1, 
+            'Player': player1name, 
+            'Result': 'lose'
+        }
+    elif winner == 'X':
+        result_data.loc[df_id] = {
+            'Game': max_game_id+1, 
+            'Player': player1name, 
+            'Result': 'win'
+        }
+        result_data.loc[df_id+1] = {
+            'Game': max_game_id+1, 
+            'Player': player2name, 
+            'Result': 'lose'
+        }
+    elif winner == None:
+        result_data.loc[df_id] = {
+            'Game': max_game_id+1, 
+            'Player': player1name, 
+            'Result': 'draw'
+        }
+        result_data.loc[df_id+1] = {
+            'Game': max_game_id+1, 
+            'Player': player2name, 
+            'Result': 'draw'
+        }
+
+
+    return result_data
+
